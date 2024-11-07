@@ -1,7 +1,3 @@
-// Enum list:
-// 0 = "rock"
-// 1 = "paper"
-// 2 = "scissors"
 const Choices = Object.freeze({
     "rock": 0,
     "paper": 1,
@@ -14,11 +10,12 @@ function getComputerChoice() {
 }
 
 // function that gets a choice from the user and maps it to the respective integer
+// convert string to an int to make solution more elegant and easier to compute winner
 function getHumanChoice() {
-    value = prompt("Please Enter a Choice: ").toLowerCase();
-    while (!(value in Choices)) {
-        value = prompt("Please Enter a Valid Choice (rock/paper/scissors)").toLowerCase()
-    }
+    let value;
+    do {
+        value = prompt("Please Enter a Choice (rock/paper/scissors)").toLowerCase()
+    } while (!(value in Choices))
     return Choices[value]
 }
 
@@ -26,7 +23,9 @@ function getHumanChoice() {
 // switch case breaks at end: https://stackoverflow.com/questions/65455535/every-case-in-switch-is-triggered-in-js#:~:text=JavaScript%20supports%20C%20style%20switch,must%20end%20it%20with%20break%3B%20.
 // JavaScript supports C style switch case fall through, which means unless there is a break specified, it will continue to execute all the subsequent cases.
 
-// +3 added to make all negatives their respective positive value.
+// add 3 to make all negatives their respective positive value.
+// if the difference between the human choice and computer choice is +1, we win
+// if the difference between the human choice and computer choice is +2, computer wins
 function playRound(humanChoice, computerChoice) {
     console.log(`You selected "${Object.keys(Choices).find(key => Choices[key] === humanChoice)}" and the computer selected "${Object.keys(Choices).find(key => Choices[key] === computerChoice)}".`);
     switch((humanChoice-computerChoice+3)%3) {
